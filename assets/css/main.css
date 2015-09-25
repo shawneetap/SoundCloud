@@ -10558,20 +10558,22 @@ nav {
   align-items: center;
   -ms-flex-align: center;
   width: 70%;
-  height: 30px;
+  height: 40px;
+  margin-top: 30px;
 }
 
 .search-title {
   margin: 0;
-  width: 30%;
+  width: 40%;
   text-transform: capitalize;
   float: left;
 }
 
 #sub-nav {
-  width: 70%;
+  width: 60%;
   height: 100%;
-  background-color: #3bc3dc;
+  margin-top: -16px;
+  border-bottom: 4px solid #3bc3dc;
 }
 
 #artist-search {
@@ -10600,6 +10602,11 @@ nav {
   height: 100px;
   float: left;
   position: relative;
+}
+
+.default-art {
+  background-image: url("../images/default-art.png");
+  background-size: contain;
 }
 
 .artwork-container:hover::after {

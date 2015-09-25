@@ -1,15 +1,4 @@
-// function currentArtist () {
-// 	var newArtist = $("input").val();
-// 	console.log(newArtist);
-// 	var api = "https://api.soundcloud.com";
-// 	var api_newArtist = api+newArtist;
-// 	console.log(bluh);
 
-
-// 	$.getJSON(api_newArtist, function(responseJSON){
-
-// 	});
-// }
 SC.initialize({ client_id: "759830e7f516ee6df896d9016714375e"});
 
 $("#submit-button").click(function() {
@@ -50,6 +39,13 @@ $("#submit-button").click(function() {
 			$('.song .title').eq(i).text(title);
 			$('img').eq(i).attr('src', art);
 
+			var artworkUrl = tracks[i]['artwork_url'];
+				console.log(artworkUrl);
+
+			if (artworkUrl === null) {
+				$('.art').addClass('default-art');
+			}
+
 		};
 
 		$('.play-button-img').click(function() {
@@ -65,6 +61,19 @@ $("#submit-button").click(function() {
 				});
 			});
 		});
+
+		// function getData(array, type, val) {
+		//   return array.filter(function (el) {
+		//     return el[type] === val;
+		//   });
+		// }
+
+		// var data = getData(tracks, 'artwork_url');
+		// console.log(data);
+
+		// if (tracks[0]['artwork_url'] === null) {
+		// 	console.log('this is null');
+		// }
 	});
 });
 
