@@ -45,20 +45,24 @@ $("#submit-button").click(function() {
 			if (artworkUrl === null) {
 				$('.art').addClass('default-art');
 			}
-
 		};
+	});
+});
 
-		$('.play-button-img').click(function() {
+$('.play-button-img').click(function() {
 
-			var trackNumber = $(this).parents('.content').index();
+	var newArtist = $("input").val();
+	var trackNumber = $(this).parents('.content').index();
+	
+	console.log(trackNumber)
 
+	SC.get('/tracks', { q: newArtist}, function(tracks) {
 
-			SC.stream(tracks[trackNumber]['id'], function(sound){
-				sound.play();
+		SC.stream(tracks[trackNumber]['id'], function(sound){
+			sound.play();
 
-				$('.play-button-img').click(function() {
-					sound.stop();
-				});
+			$('.play-button-img').click(function() {
+				sound.stop();
 			});
 		});
 	});
