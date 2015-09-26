@@ -51,7 +51,7 @@ $("#submit-button").click(function() {
 		$('.play-button-img').click(function() {
 
 			var trackNumber = $(this).parents('.content').index();
-
+			console.log(trackNumber)
 
 			SC.stream(tracks[trackNumber]['id'], function(sound){
 				sound.play();
