@@ -1,9 +1,10 @@
 
 SC.initialize({ client_id: "759830e7f516ee6df896d9016714375e"});
 
+var newArtist;
 $("#submit-button").click(function() {
 
-	var newArtist = $("input").val();
+	newArtist = $("input").val();
 	$('.search-title').text(newArtist);
 	SC.get('/tracks', { q: newArtist}, function(tracks) {
 		
@@ -45,19 +46,19 @@ $("#submit-button").click(function() {
 			if (artworkUrl === null) {
 				$('.art').addClass('default-art');
 			}
+
 		};
+
 	});
 });
 
-$('.play-button-img').click(function() {
+$(document).on('click','.play-button-img', function() {
 
-	var newArtist = $("input").val();
 	var trackNumber = $(this).parents('.content').index();
+	console.log(trackNumber);
+
 	
-	console.log(trackNumber)
-
 	SC.get('/tracks', { q: newArtist}, function(tracks) {
-
 		SC.stream(tracks[trackNumber]['id'], function(sound){
 			sound.play();
 
@@ -67,6 +68,8 @@ $('.play-button-img').click(function() {
 		});
 	});
 });
+
+
 
 
 

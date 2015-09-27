@@ -1,9 +1,10 @@
 
 SC.initialize({ client_id: "759830e7f516ee6df896d9016714375e"});
 
+var newArtist;
 $("#submit-button").click(function() {
 
-	var newArtist = $("input").val();
+	newArtist = $("input").val();
 	$('.search-title').text(newArtist);
 	SC.get('/tracks', { q: newArtist}, function(tracks) {
 		
