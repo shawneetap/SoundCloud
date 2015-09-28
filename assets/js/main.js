@@ -49,21 +49,39 @@ $("#submit-button").click(function() {
 
 		};
 
-		$('.play-button-img').click(function() {
+	});
+});
 
-			var trackNumber = $(this).parents('.content').index();
-			console.log(trackNumber)
+var playingTrack = 'no';
 
-			SC.stream(tracks[trackNumber]['id'], function(sound){
-				sound.play();
+$(document).on('click','.play-button-img', function() {
 
-				$('.play-button-img').click(function() {
-					sound.stop();
-				});
+	var trackNumber = $(this).parents('.content').index();
+	console.log(trackNumber);
+
+	
+	SC.get('/tracks', {q: newArtist}, function(tracks) {
+		SC.stream(tracks[trackNumber]['id'], function(sound){
+			sound.play();
+			$('.play-button-img').click(function() {
+				sound.stop();
 			});
+		
+			// if (playingTrack === 'no') {
+			// 	sound.play();
+			// 	playingTrack = 'yes';
+			// 	console.log(playingTrack);
+			// } else if (playingTrack === 'yes') {
+			// 	sound.stop();
+			// 	playingTrack = 'no';
+			// 	console.log(playingTrack);
+			// }
+
 		});
 	});
 });
+
+
 
 
 
