@@ -62,20 +62,20 @@ $(document).on('click','.play-button-img', function() {
 	
 	SC.get('/tracks', {q: newArtist}, function(tracks) {
 		SC.stream(tracks[trackNumber]['id'], function(sound){
-			sound.play();
-			$('.play-button-img').click(function() {
-				sound.stop();
-			});
-		
-			// if (playingTrack === 'no') {
-			// 	sound.play();
-			// 	playingTrack = 'yes';
-			// 	console.log(playingTrack);
-			// } else if (playingTrack === 'yes') {
+			// sound.play();
+			// $('.play-button-img').click(function() {
 			// 	sound.stop();
-			// 	playingTrack = 'no';
-			// 	console.log(playingTrack);
-			// }
+			// });
+		
+			if (playingTrack === 'no') {
+				sound.play();
+				playingTrack = 'yes';
+				console.log(playingTrack);
+			} else if (playingTrack === 'yes') {
+				sound.stop();
+				playingTrack = 'no';
+				console.log(playingTrack);
+			}
 
 		});
 	});
