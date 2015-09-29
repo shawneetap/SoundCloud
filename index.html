@@ -9,35 +9,35 @@
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
+  <!-- Navigation -->
   <nav>
-    
-      <div class="search-container clearfix">
-        <div class="input-group">
-          <input type='text' id='artist-search' class='form-control' placeholder='search:'>
-          <span class="input-group-btn">
-            <button class='btn btn-default' type='button' id='submit-button'>
-              <i class="fa fa-search"></i>
-            </button>
-          </span>
-        </div>
+    <div class="search-container clearfix">
+      <div class="input-group">
+        <input type='text' id='artist-search' autofocus="autofocus" class='form-control' placeholder='search:'>
+        <span class="input-group-btn">
+          <button class='btn btn-default' type='button' id='submit-button'>
+            <i class="fa fa-search"></i>
+          </button>
+        </span>
       </div>
-
-    
+    </div>
   </nav>
+  <!-- End -->
+
+  <!-- This is content that is generated through SoundCloud -->
   <div class="all-container">
-    
     <div id="playlist" class='clearfix'>
       <h1 class='search-title clearfix'></h1>
       <div id="sub-nav"></div>
     </div>
-  <!-- End -->
-
-  <!-- This is content that is generated through SoundCloud -->
+    
     <div class="content-wrapper clearfix">
       <div class="content clearfix"> 
         <div class="artwork-container"><div class="play-button-img"></div><img class="art" src=""></div>
-        <div class="song">
+        <div class="song clearfix">
           <div class="title"></div>
+          <div class="plays"></div>
+          <div class="likes"></div>
         </div>
       </div>
     </div>
@@ -53,11 +53,9 @@
     <div id="duration"></div>
     <div id="volume"></div>
   </div>
-    
-    
-<!-- End -->
+  <!-- End -->
 
-<!-- Scripts -->
+  <!-- Scripts -->
   <script src="//connect.soundcloud.com/sdk-2.0.0.js"></script>
 
   <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>

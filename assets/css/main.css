@@ -10498,6 +10498,7 @@ body {
   background-color: #9f9f9f;
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 18px;
+  margin-bottom: 100px;
 }
 
 nav {
@@ -10569,6 +10570,7 @@ nav {
   float: left;
   background-color: #fff;
   padding-right: 20px;
+  padding-bottom: 5px;
 }
 
 #sub-nav {
@@ -10650,8 +10652,24 @@ nav {
 
 .song {
   float: left;
-  margin: 10px;
-  margin-top: 40px;
+  margin-left: 10px;
+}
+
+.song .title {
+  font-size: 1.1em;
+}
+
+.song .plays {
+  font-size: .8em;
+  float: left;
+  color: grey;
+}
+
+.song .likes {
+  font-size: .8em;
+  float: left;
+  margin-left: 10px;
+  color: grey;
 }
 
 .clearfix {
