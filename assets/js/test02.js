@@ -67,19 +67,27 @@ $(document).keypress(function(newTrack) {
 });
 
 // Playing and pausing
-var playingTrack = 'no';
+var playingTrack = false;
 
-$(document).on('click','.play-button-img', function() {
+play = $(document).on('click','.play-button-img', function(myTrackId) {
 
 	var trackNumber = $(this).parents('.content').index();
 	console.log(trackNumber);
 
+	if(playingTrack) {
+		sound.stop();
+	}
+
 	SC.get('/tracks', {q: newArtist}, function(tracks) {
-		SC.stream(tracks[trackNumber]['id'], function(sound){
+		SC.stream(tracks+myTrackId, function(sound){
 			sound.play();
-			$('.play-button-img').click(function() {
-				sound.stop();
-			});
+			playingTrack = true;
+			
+			// console.log(tracks);
+			// console.log(sound);
+			// $('.play-button-img').click(function() {
+			// 	sound.stop();
+			// });
 		
 			// if (playingTrack === 'no') {
 			// 	sound.play();
