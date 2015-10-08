@@ -11,28 +11,29 @@ function newTrack() {
 	SC.get('/tracks', { q: newArtist}, function(tracks) {
 
 		console.log(tracks);
-		$(document).on('click','.play-button-img', function() {
-			var trackNumber = $(this).parents('.content').index();
-			console.log(trackNumber);
+		// playback within submit
+		// $(document).on('click','.play-button-img', function() {
+		// 	var trackNumber = $(this).parents('.content').index();
+		// 	console.log(trackNumber);
 
-			SC.stream(tracks[trackNumber]['id'], function(sound){
-			  // sound.play();
-			  // $('.play-button-img').click(function() {
-			  //   sound.stop();
-			  // });
+		// 	SC.stream(tracks[trackNumber]['id'], function(sound){
+		// 	  // sound.play();
+		// 	  // $('.play-button-img').click(function() {
+		// 	  //   sound.stop();
+		// 	  // });
 
-			  if (playingTrack === 'no') {
-			   sound.play();
-			   playingTrack = 'yes';
-			   console.log(playingTrack);
-			  } else if (playingTrack === 'yes') {
-			   sound.stop();
-			   playingTrack = 'no';
-			   console.log(playingTrack);
-			  }
-			});
+		// 	  if (playingTrack === 'no') {
+		// 	   sound.play();
+		// 	   playingTrack = 'yes';
+		// 	   console.log(playingTrack);
+		// 	  } else if (playingTrack === 'yes') {
+		// 	   sound.stop();
+		// 	   playingTrack = 'no';
+		// 	   console.log(playingTrack);
+		// 	  }
+		// 	});
 
-		});
+		// });
 		var trackLength = tracks.length;
 		console.log(trackLength);
 
@@ -52,7 +53,7 @@ function newTrack() {
 				var newPlays = $("<div class ='plays'>").text(plays);
 				var newLikes = $("<div class='likes'>").text(likes);
 				var newArtworkContainer = $('<div class="artwork-container">');
-				var newPlay = $('<div class ="play-button-img">');
+				var newPlay = $('<div class ="state play-button-img">');
 				var newArt = $('<img class ="art">').attr('src', art);
 
 				var titleDiv = newSong.append(newTitle).append(newPlays).append(newLikes);
@@ -90,93 +91,74 @@ $(document).keypress(function(newTrack) {
 	} 
 });
 
-// var trackNumber;
+// Playing Pausing Stopping
+var sounds = [];
+var currentSong;
+var trackIndex;
+var storedSound;
+var voy;
 
-// $(document).on('click','.play-button-img', function() {
-// 	trackNumber = $(this).parents('.content').index();
-// 	console.log(trackNumber);
-// });
+$(document).on('click','.state', function() {
+	trackIndex = $(this).parents('.content').index();
+	currentSong = $('.artwork-container div').eq(trackIndex);
+	$(this).removeClass('play-button-img').addClass('pause-button-img');
+	console.log(currentSong);
+	console.log(trackIndex);
 
-function StateMan(currentTrack) {
-	var track = currentTrack;
-	if (playingTrack === 'no') {
-		track.play();
-		playingTrack = 'yes';
-		console.log(playingTrack);
-	} else if (playingTrack === 'yes') {
-		track.stop();
-		playingTrack = 'no';
-		console.log(playingTrack);
-	}
+	$('#audio-controls').animate({
+		marginBottom: '0',
+		}, 400, function() {
+	});
 
-	// var track = currentTrack;
-	// var state = "";
-
-	// this.play = function() {
-	// 	if(state == "play") return;
-	// 	state = "play";
-	// 	track.play();
-	// 	console.log('playing');
-	// };
-
-	// this.stop = function() {
-	// 	if (state == "stop") return;
-	// 	state = "stop";	
-	// 	track.stop();
-	// 	console.log('stopped');
-	// };
-	// this.stop();
-}
-
-// $(document).ready(function() {
-// 	playingTrack = 'no';
-// 	SC.get('/tracks', {q: newArtist}, function(tracks) {
-// 		$(document).on('click','.play-button-img', function() {
-// 			console.log(newArtist);
-// 			trackNumber = $(this).parents('.content').index();
-// 			console.log(trackNumber);
-			
-// 			SC.stream(tracks[trackNumber]['id'], function(sound) {
-// 				console.log(sound);
-// 				stateMan = new StateMan(sound);
-// 				// console.log(StateMan);
-// 			});
+	SC.get('/tracks', {q: newArtist}, function(tracks) {
+		storedSound = sounds[trackIndex];
+		// playingIndex = sounds.length;
+		// console.log(playingIndex);
 		
-// 		});
-// 	});
-// });
+		if (storedSound) {
+			if (storedSound.getState() == "paused") {
+				storedSound.play();
+				console.log('playing!');
+				$('#play-button, #pause-button').toggle();
+			} else {
+				storedSound.pause();
+				console.log('paused!');
+				currentSong.removeClass('pause-button-img').addClass('play-button-img');	
+				$('#play-button, #pause-button').toggle();
+			} 
+			
+		} else { 
+			$('#play-button, #pause-button').toggle();
+			currentSong = $('.artwork-container div').eq(trackIndex);
 
-// Playing and pausing
+			SC.stream(tracks[trackIndex]['id'], function(sound){
+				sound.play();
+				sounds[trackIndex] = sound;
+				voy = sound;
+				console.log(voy);
+			});	
+		}
+		
+	});
+});
 
-// var playingTrack = 'no';
+$('.event-btn').click(function() {
+	if (voy) {
+		if (voy.getState() == "paused") {
+			$('#play-button, #pause-button').toggle();
+			currentSong.removeClass('play-button-img').addClass('pause-button-img');
+			voy.play();
+			console.log('playing!');
+		} else {
+			$('#play-button, #pause-button').toggle();
+			currentSong.removeClass('pause-button-img').addClass('play-button-img');
+			voy.pause();
+			console.log('paused!');
+		} 
+	}
+});
 
-// $(document).ready(function() {
-// 	SC.get('/tracks', {q: newArtist}, function(tracks) {
-// 		console.log(tracks);
-// 		$(document).on('click','.play-button-img', function() {
-// 			var trackNumber = $(this).parents('.content').index();
-// 			console.log(trackNumber);
 
-// 			SC.stream(tracks[trackNumber]['id'], function(sound){
-// 			  // sound.play();
-// 			  // $('.play-button-img').click(function() {
-// 			  //   sound.stop();
-// 			  // });
-
-// 			  if (playingTrack === 'no') {
-// 			   sound.play();
-// 			   playingTrack = 'yes';
-// 			   console.log(playingTrack);
-// 			  } else if (playingTrack === 'yes') {
-// 			   sound.stop();
-// 			   playingTrack = 'no';
-// 			   console.log(playingTrack);
-// 			  }
-// 			});
-
-// 		});
-// 	});
-// });
 
 
 

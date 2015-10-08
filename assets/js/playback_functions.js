@@ -29,16 +29,16 @@ $(document).ready(function() {
 
 // function number #2
 function StateMan(currentTrack) {
-	var track = currentTrack;
-	if (playingTrack === 'no') {
-		track.play();
-		playingTrack = 'yes';
-		console.log(playingTrack);
-	} else if (playingTrack === 'yes') {
-		track.stop();
-		playingTrack = 'no';
-		console.log(playingTrack);
-	}
+	// var track = currentTrack;
+	// if (playingTrack === 'no') {
+	// 	track.play();
+	// 	playingTrack = 'yes';
+	// 	console.log(playingTrack);
+	// } else if (playingTrack === 'yes') {
+	// 	track.stop();
+	// 	playingTrack = 'no';
+	// 	console.log(playingTrack);
+	// }
 
 	var track = currentTrack;
 	var state = "";
