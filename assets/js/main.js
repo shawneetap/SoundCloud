@@ -11,29 +11,6 @@ function newTrack() {
 	SC.get('/tracks', { q: newArtist}, function(tracks) {
 
 		console.log(tracks);
-		// playback within submit
-		// $(document).on('click','.play-button-img', function() {
-		// 	var trackNumber = $(this).parents('.content').index();
-		// 	console.log(trackNumber);
-
-		// 	SC.stream(tracks[trackNumber]['id'], function(sound){
-		// 	  // sound.play();
-		// 	  // $('.play-button-img').click(function() {
-		// 	  //   sound.stop();
-		// 	  // });
-
-		// 	  if (playingTrack === 'no') {
-		// 	   sound.play();
-		// 	   playingTrack = 'yes';
-		// 	   console.log(playingTrack);
-		// 	  } else if (playingTrack === 'yes') {
-		// 	   sound.stop();
-		// 	   playingTrack = 'no';
-		// 	   console.log(playingTrack);
-		// 	  }
-		// 	});
-
-		// });
 		var trackLength = tracks.length;
 		console.log(trackLength);
 
