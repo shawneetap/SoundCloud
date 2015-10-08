@@ -60,7 +60,7 @@ function newTrack() {
 // Submits newTrack via button
 $("#submit-button").click(newTrack);
 
-// pressing Ente sends the newTrack function
+// pressing Enter sends the newTrack function
 $(document).keypress(function(newTrack) {
 	if(event.keyCode === 13) {
 		$('#submit-button').click();
@@ -81,6 +81,7 @@ $(document).on('click','.state', function() {
 	$(this).removeClass('play-button-img').addClass('pause-button-img');
 	console.log(currentSong);
 	console.log(trackIndex);
+	console.log(sounds);
 
 	$('#audio-controls').animate({
 		marginBottom: '0',
