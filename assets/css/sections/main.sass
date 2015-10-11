@@ -128,8 +128,12 @@ nav
 	left: 50%
 	margin-top: -13px
 	margin-left: -13px
+	display: none
 
 .artwork-container:hover .play-button-img 
+	display: block
+
+.artwork-container:hover .pause-button-img 
 	display: block
 
 .play-button-img:hover 
@@ -199,6 +203,10 @@ nav
 	background-image: url(../images/next.png)
 	background-size: contain
 	float: left
+
+#duration
+	+size(40px)
+	color: #fff
 
 
 

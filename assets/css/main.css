@@ -10656,9 +10656,14 @@ nav {
   left: 50%;
   margin-top: -13px;
   margin-left: -13px;
+  display: none;
 }
 
 .artwork-container:hover .play-button-img {
+  display: block;
+}
+
+.artwork-container:hover .pause-button-img {
   display: block;
 }
 
@@ -10759,4 +10764,10 @@ nav {
   background-image: url(../images/next.png);
   background-size: contain;
   float: left;
+}
+
+#duration {
+  height: 40px;
+  width: 40px;
+  color: #fff;
 }

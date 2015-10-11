@@ -1,11 +1,18 @@
 
 SC.initialize({ client_id: "759830e7f516ee6df896d9016714375e"});
 
+// newTrack variable
 var newArtist;
-var playingTrack = 'no';
+// Playing/Pausing variables
+var sounds = [];
+var currentSong;
+var trackIndex;
+var storedSound;
+
+// Playing/Pausing bottom interface
+var voy;
 
 function newTrack() {
-
 	newArtist = $("input").val();
 	$('.search-title').text(newArtist);
 	SC.get('/tracks', { q: newArtist}, function(tracks) {
@@ -68,17 +75,26 @@ $(document).keypress(function(newTrack) {
 	} 
 });
 
+// Showing Duration
+function showDuration() {
+	setInterval(checkSongTime, 1000);
+	function checkSongTime() {
+		//Get mins and secs
+		var s = parseInt(voy.getCurrentPosition()) % 10;
+		var m = parseInt((voy.getCurrentPosition()) / 10) %10;
+		//Add 0 if less than 10
+		if (s < 10) {
+			s = '0' + s;
+		}
+		$('#duration').html(m + ':' + s);
+	}
+};
+
 // Playing Pausing Stopping
-var sounds = [];
-var currentSong;
-var trackIndex;
-var storedSound;
-var voy;
 
 $(document).on('click','.state', function() {
 	trackIndex = $(this).parents('.content').index();
 	currentSong = $('.artwork-container div').eq(trackIndex);
-	$(this).removeClass('play-button-img').addClass('pause-button-img');
 	console.log(currentSong);
 	console.log(trackIndex);
 	console.log(sounds);
@@ -90,13 +106,12 @@ $(document).on('click','.state', function() {
 
 	SC.get('/tracks', {q: newArtist}, function(tracks) {
 		storedSound = sounds[trackIndex];
-		// playingIndex = sounds.length;
-		// console.log(playingIndex);
-		
 		if (storedSound) {
 			if (storedSound.getState() == "paused") {
+				console.log(storedSound.getCurrentPosition());
 				storedSound.play();
 				console.log('playing!');
+				currentSong.removeClass('play-button-img').addClass('pause-button-img');
 				$('#play-button, #pause-button').toggle();
 			} else {
 				storedSound.pause();
@@ -108,33 +123,38 @@ $(document).on('click','.state', function() {
 		} else { 
 			$('#play-button, #pause-button').toggle();
 			currentSong = $('.artwork-container div').eq(trackIndex);
+			currentSong.removeClass('play-button-img').addClass('pause-button-img');
 
 			SC.stream(tracks[trackIndex]['id'], function(sound){
 				sound.play();
 				sounds[trackIndex] = sound;
 				voy = sound;
 				console.log(voy);
+				showDuration();
 			});	
 		}
 		
 	});
 });
 
+// Using bottom interface to Play/Pause
 $('.event-btn').click(function() {
+	$('#play-button, #pause-button').toggle();
 	if (voy) {
 		if (voy.getState() == "paused") {
-			$('#play-button, #pause-button').toggle();
+			
 			currentSong.removeClass('play-button-img').addClass('pause-button-img');
 			voy.play();
 			console.log('playing!');
 		} else {
-			$('#play-button, #pause-button').toggle();
+			
 			currentSong.removeClass('pause-button-img').addClass('play-button-img');
 			voy.pause();
 			console.log('paused!');
 		} 
 	}
 });
+
 
 
 
