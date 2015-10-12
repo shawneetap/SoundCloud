@@ -111,24 +111,26 @@ $(document).on('click','.state', function() {
 				console.log(storedSound.getCurrentPosition());
 				storedSound.play();
 				console.log('playing!');
-				currentSong.removeClass('play-button-img').addClass('pause-button-img');
-				$('#play-button, #pause-button').toggle();
+				// currentSong.removeClass('play-button-img').addClass('pause-button-img');
+				// $('#play-button, #pause-button').toggle();
 			} else {
 				storedSound.pause();
 				console.log('paused!');
-				currentSong.removeClass('pause-button-img').addClass('play-button-img');	
-				$('#play-button, #pause-button').toggle();
+				// currentSong.removeClass('pause-button-img').addClass('play-button-img');	
+				// $('#play-button, #pause-button').toggle();
 			} 
 			
 		} else { 
 			$('#play-button, #pause-button').toggle();
-			currentSong = $('.artwork-container div').eq(trackIndex);
-			currentSong.removeClass('play-button-img').addClass('pause-button-img');
+			// currentSong = $('.artwork-container div').eq(trackIndex);
+			// currentSong.removeClass('play-button-img').addClass('pause-button-img');
 
 			SC.stream(tracks[trackIndex]['id'], function(sound){
 				if (voy) {
+					// currentSong.removeClass('pause-button-img').addClass('play-button-img');
 					voy.stop();
-				}
+					sounds = [];
+				} 
 				sound.play();
 				sounds[trackIndex] = sound;
 				voy = sound;
