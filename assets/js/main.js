@@ -80,8 +80,8 @@ function showDuration() {
 	setInterval(checkSongTime, 1000);
 	function checkSongTime() {
 		//Get mins and secs
-		var s = parseInt(voy.getCurrentPosition()) % 10;
-		var m = parseInt((voy.getCurrentPosition()) / 10) %10;
+		var s = parseInt(voy.getCurrentPosition()) % 60;
+		var m = parseInt((voy.getCurrentPosition()) / 60) %60;
 		//Add 0 if less than 10
 		if (s < 10) {
 			s = '0' + s;
@@ -126,6 +126,9 @@ $(document).on('click','.state', function() {
 			currentSong.removeClass('play-button-img').addClass('pause-button-img');
 
 			SC.stream(tracks[trackIndex]['id'], function(sound){
+				if (voy) {
+					voy.stop();
+				}
 				sound.play();
 				sounds[trackIndex] = sound;
 				voy = sound;
