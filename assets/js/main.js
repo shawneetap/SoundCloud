@@ -80,8 +80,8 @@ function showDuration() {
 	setInterval(checkSongTime, 1000);
 	function checkSongTime() {
 		//Get mins and secs
-		var s = parseInt(voy.getCurrentPosition()) % 60;
-		var m = parseInt((voy.getCurrentPosition()) / 60) %60;
+		var m = Math.floor(voy.getCurrentPosition() / 60000);
+		var s = ((voy.getCurrentPosition() % 60000) / 1000).toFixed(0);
 		//Add 0 if less than 10
 		if (s < 10) {
 			s = '0' + s;
@@ -89,7 +89,10 @@ function showDuration() {
 		$('#duration').html(m + ':' + s);
 	}
 };
-
+// function showDuration(millis) {
+// 	var m = Math.floor(millis / 60000);
+// 	var s = ((millis % 60000) / 1000);
+// }
 // Playing Pausing Stopping
 
 $(document).on('click','.state', function() {
