@@ -79,22 +79,29 @@ $(document).keypress(function(newTrack) {
 function showDuration() {
 	setInterval(checkSongTime, 1000);
 	function checkSongTime() {
+		var pos = voy.getCurrentPosition();
+		var dur = voy.getDuration();
+		console.log(pos);
+		console.log(dur);
 		//Get mins and secs
-		var m = Math.floor(voy.getCurrentPosition() / 60000);
-		var s = ((voy.getCurrentPosition() % 60000) / 1000).toFixed(0);
+		var m = Math.floor(pos / 60000);
+		var s = ((pos % 60000) / 1000).toFixed(0);
 		//Add 0 if less than 10
 		if (s < 10) {
 			s = '0' + s;
 		}
 		$('#duration').html(m + ':' + s);
+
+		var value = 0;
+		if(pos > 0) {
+			value = Math.floor((100 / dur) * pos);
+		}
+		console.log(value);
+		$('#progress').css('width',value+'%');
 	}
 };
-// function showDuration(millis) {
-// 	var m = Math.floor(millis / 60000);
-// 	var s = ((millis % 60000) / 1000);
-// }
-// Playing Pausing Stopping
 
+// Playing Pausing Stopping
 $(document).on('click','.state', function() {
 	trackIndex = $(this).parents('.content').index();
 	currentSong = $('.artwork-container div').eq(trackIndex);
@@ -155,7 +162,6 @@ $('.event-btn').click(function() {
 			voy.play();
 			console.log('playing!');
 		} else {
-			
 			currentSong.removeClass('pause-button-img').addClass('play-button-img');
 			voy.pause();
 			console.log('paused!');
