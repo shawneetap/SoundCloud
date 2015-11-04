@@ -81,8 +81,8 @@ function showDuration() {
 	function checkSongTime() {
 		var pos = voy.getCurrentPosition();
 		var dur = voy.getDuration();
-		console.log(pos);
-		console.log(dur);
+		// console.log(pos);
+		// console.log(dur);
 		//Get mins and secs
 		var m = Math.floor(pos / 60000);
 		var s = ((pos % 60000) / 1000).toFixed(0);
@@ -96,7 +96,7 @@ function showDuration() {
 		if(pos > 0) {
 			value = Math.floor((100 / dur) * pos);
 		}
-		console.log(value);
+		// console.log(value);
 		$('#progress').css('width',value+'%');
 	}
 };
@@ -105,7 +105,9 @@ function showDuration() {
 $(document).on('click','.state', function() {
 	trackIndex = $(this).parents('.content').index();
 	currentSong = $('.artwork-container div').eq(trackIndex);
+	nextSong = $('.artwork-container div').eq(trackIndex + 1);
 	console.log(currentSong);
+	console.log(nextSong);
 	console.log(trackIndex);
 	console.log(sounds);
 
@@ -117,8 +119,12 @@ $(document).on('click','.state', function() {
 	SC.get('/tracks', {q: newArtist}, function(tracks) {
 		storedSound = sounds[trackIndex];
 		if (storedSound) {
+			$('#next-button').click(function() {
+				storedSound.stop();
+				var nextSong = sounds[trackIndex + 1];
+				console.log(nextSong);
+			});
 			if (storedSound.getState() == "paused") {
-				console.log(storedSound.getCurrentPosition());
 				storedSound.play();
 				console.log('playing!');
 				currentSong.removeClass('play-button-img').addClass('pause-button-img');
@@ -168,6 +174,7 @@ $('.event-btn').click(function() {
 		} 
 	}
 });
+
 
 
 
