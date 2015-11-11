@@ -71,7 +71,6 @@ $("#submit-button").click(newTrack);
 $(document).keypress(function(newTrack) {
 	if(event.keyCode === 13) {
 		$('#submit-button').click();
-		console.log('yes');
 	} 
 });
 
@@ -81,8 +80,7 @@ function showDuration() {
 	function checkSongTime() {
 		var pos = voy.getCurrentPosition();
 		var dur = voy.getDuration();
-		// console.log(pos);
-		// console.log(dur);
+	
 		//Get mins and secs
 		var m = Math.floor(pos / 60000);
 		var s = ((pos % 60000) / 1000).toFixed(0);
@@ -96,20 +94,22 @@ function showDuration() {
 		if(pos > 0) {
 			value = Math.floor((100 / dur) * pos);
 		}
-		// console.log(value);
+		
 		$('#progress').css('width',value+'%');
 	}
 };
+
+// Volume
+// Not Working
+$('#volume').change(function() {
+	voy.setVolume = parseFloat(this.value / 100);
+	console.log(voy.getVolume);
+});
 
 // Playing Pausing Stopping
 $(document).on('click','.state', function() {
 	trackIndex = $(this).parents('.content').index();
 	currentSong = $('.artwork-container div').eq(trackIndex);
-	nextSong = $('.artwork-container div').eq(trackIndex + 1);
-	console.log(currentSong);
-	console.log(nextSong);
-	console.log(trackIndex);
-	console.log(sounds);
 
 	$('#audio-controls').animate({
 		marginBottom: '0',
@@ -119,19 +119,12 @@ $(document).on('click','.state', function() {
 	SC.get('/tracks', {q: newArtist}, function(tracks) {
 		storedSound = sounds[trackIndex];
 		if (storedSound) {
-			$('#next-button').click(function() {
-				storedSound.stop();
-				var nextSong = sounds[trackIndex + 1];
-				console.log(nextSong);
-			});
 			if (storedSound.getState() == "paused") {
 				storedSound.play();
-				console.log('playing!');
 				currentSong.removeClass('play-button-img').addClass('pause-button-img');
 				$('#play-button, #pause-button').toggle();
 			} else {
 				storedSound.pause();
-				console.log('paused!');
 				currentSong.removeClass('pause-button-img').addClass('play-button-img');	
 				$('#play-button, #pause-button').toggle();
 			} 
@@ -163,7 +156,6 @@ $('.event-btn').click(function() {
 	$('#play-button, #pause-button').toggle();
 	if (voy) {
 		if (voy.getState() == "paused") {
-			
 			currentSong.removeClass('play-button-img').addClass('pause-button-img');
 			voy.play();
 			console.log('playing!');
@@ -173,6 +165,17 @@ $('.event-btn').click(function() {
 			console.log('paused!');
 		} 
 	}
+});
+
+//Next Button
+//Not Working
+$('#next-button').click(function() {
+	voy.stop();
+	var nextSong = (trackIndex + 1);
+	sounds[nextSong] = voy;
+	console.log(voy);
+	voy.play();
+	
 });
 
 
