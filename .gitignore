@@ -9,4 +9,4 @@ node_modules
 
 .sass-cache/
 *.css.map
-
+*.css
