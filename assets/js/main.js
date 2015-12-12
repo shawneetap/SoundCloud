@@ -116,6 +116,18 @@ $(document).on('click','.state', function() {
 		}, 400, function() {
 	});
 
+	$('.artwork-container').css('width',100);
+	$('.artwork-container').css('height',100);
+	$('.art').css('width',100);
+	$('.art').css('height',100);
+	$('.artwork-container').css('box-shadow',"none");
+
+	$('.artwork-container').eq(trackIndex).css('width',120);
+	$('.artwork-container').eq(trackIndex).css('height',120);
+	$('.art').eq(trackIndex).css('width',120);
+	$('.art').eq(trackIndex).css('height',120);
+	$('.artwork-container').eq(trackIndex).css('box-shadow',"0px 0px 8px 6px #3bc3dc");
+
 	SC.get('/tracks', {q: newArtist}, function(tracks) {
 		storedSound = sounds[trackIndex];
 		if (storedSound) {
