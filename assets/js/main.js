@@ -9,6 +9,32 @@ var currentSong;
 var trackIndex;
 var storedSound;
 
+var songSelector = function() {
+		$('.artwork-container').css('width',100);
+		$('.artwork-container').css('height',100);
+		$('.art').css('width',100);
+		$('.art').css('height',100);
+		$('.artwork-container').css('box-shadow',"none");
+
+		$('.artwork-container').eq(trackIndex).css('width',120);
+		$('.artwork-container').eq(trackIndex).css('height',120);
+		$('.art').eq(trackIndex).css('width',120);
+		$('.art').eq(trackIndex).css('height',120);
+		$('.artwork-container').eq(trackIndex).css('box-shadow',"0px 0px 8px 6px #3bc3dc");
+	};
+
+var buttonToggle = function() {
+	currentSong.removeClass('play-button-img').addClass('pause-button-img');
+	$('#play-button').css('display','none');
+	$('#pause-button').css('display','block');
+};
+
+var songReset = function() {
+	$('.artwork-container div').removeClass('pause-button-img').addClass('play-button-img');
+	voy.stop();
+	sounds = [];
+};
+
 // Playing/Pausing bottom interface
 var voy;
 
@@ -110,23 +136,14 @@ $('#volume').change(function() {
 $(document).on('click','.state', function() {
 	trackIndex = $(this).parents('.content').index();
 	currentSong = $('.artwork-container div').eq(trackIndex);
+	console.log(trackIndex);
 
 	$('#audio-controls').animate({
 		marginBottom: '0',
 		}, 400, function() {
 	});
 
-	$('.artwork-container').css('width',100);
-	$('.artwork-container').css('height',100);
-	$('.art').css('width',100);
-	$('.art').css('height',100);
-	$('.artwork-container').css('box-shadow',"none");
-
-	$('.artwork-container').eq(trackIndex).css('width',120);
-	$('.artwork-container').eq(trackIndex).css('height',120);
-	$('.art').eq(trackIndex).css('width',120);
-	$('.art').eq(trackIndex).css('height',120);
-	$('.artwork-container').eq(trackIndex).css('box-shadow',"0px 0px 8px 6px #3bc3dc");
+	songSelector();
 
 	SC.get('/tracks', {q: newArtist}, function(tracks) {
 		storedSound = sounds[trackIndex];
@@ -137,29 +154,57 @@ $(document).on('click','.state', function() {
 				$('#play-button, #pause-button').toggle();
 			} else {
 				storedSound.pause();
-				currentSong.removeClass('pause-button-img').addClass('play-button-img');	
+				currentSong.removeClass('pause-button-img').addClass('play-button-img');
 				$('#play-button, #pause-button').toggle();
 			} 
 			
 		} else { 
 			if (voy) {
-				$('.artwork-container div').removeClass('pause-button-img').addClass('play-button-img');
-				voy.stop();
-				sounds = [];
+				songReset();
 			}
 
 			SC.stream(tracks[trackIndex]['id'], function(sound){ 
-				$('#play-button').css('display','none');
-				$('#pause-button').css('display','block');
-				currentSong.removeClass('play-button-img').addClass('pause-button-img');
+				buttonToggle();
 				sound.play();
 				sounds[trackIndex] = sound;
 				voy = sound;
-				console.log(voy);
 				showDuration();
 			});	
 		}
-		
+	});
+});
+
+//next song
+$('#next-button').click(function() {
+	songReset();
+	trackIndex = (trackIndex + 1);
+	currentSong = $('.artwork-container div').eq(trackIndex);
+	songSelector();
+	buttonToggle();
+	SC.get('/tracks', {q: newArtist}, function(tracks) {
+		SC.stream(tracks[trackIndex]['id'], function(sound){ 
+			sound.play();
+			sounds[trackIndex] = sound;
+			voy = sound;
+			showDuration();
+		});
+	});
+});
+
+//previous song
+$('#prev-button').click(function() {
+	songReset();
+	trackIndex = (trackIndex - 1);
+	currentSong = $('.artwork-container div').eq(trackIndex);
+	songSelector();
+	buttonToggle();
+	SC.get('/tracks', {q: newArtist}, function(tracks) {
+		SC.stream(tracks[trackIndex]['id'], function(sound){ 
+			sound.play();
+			sounds[trackIndex] = sound;
+			voy = sound;
+			showDuration();
+		});
 	});
 });
 
@@ -179,16 +224,7 @@ $('.event-btn').click(function() {
 	}
 });
 
-//Next Button
-//Not Working
-$('#next-button').click(function() {
-	voy.stop();
-	var nextSong = (trackIndex + 1);
-	sounds[nextSong] = voy;
-	console.log(voy);
-	voy.play();
-	
-});
+
 
 
 
