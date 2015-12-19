@@ -35,6 +35,20 @@ var songReset = function() {
 	sounds = [];
 };
 
+var nextPrev = function() {
+	currentSong = $('.artwork-container div').eq(trackIndex);
+	songSelector();
+	buttonToggle();
+	SC.get('/tracks', {q: newArtist}, function(tracks) {
+		SC.stream(tracks[trackIndex]['id'], function(sound){ 
+			sound.play();
+			sounds[trackIndex] = sound;
+			voy = sound;
+			showDuration();
+		});
+	});
+};
+
 // Playing/Pausing bottom interface
 var voy;
 
@@ -171,34 +185,14 @@ $(document).on('click','.state', function() {
 $('#next-button').click(function() {
 	songReset();
 	trackIndex = (trackIndex + 1);
-	currentSong = $('.artwork-container div').eq(trackIndex);
-	songSelector();
-	buttonToggle();
-	SC.get('/tracks', {q: newArtist}, function(tracks) {
-		SC.stream(tracks[trackIndex]['id'], function(sound){ 
-			sound.play();
-			sounds[trackIndex] = sound;
-			voy = sound;
-			showDuration();
-		});
-	});
+	nextPrev();
 });
 
 //previous song
 $('#prev-button').click(function() {
 	songReset();
 	trackIndex = (trackIndex - 1);
-	currentSong = $('.artwork-container div').eq(trackIndex);
-	songSelector();
-	buttonToggle();
-	SC.get('/tracks', {q: newArtist}, function(tracks) {
-		SC.stream(tracks[trackIndex]['id'], function(sound){ 
-			sound.play();
-			sounds[trackIndex] = sound;
-			voy = sound;
-			showDuration();
-		});
-	});
+	nextPrev();
 });
 
 // Using bottom interface to Play/Pause
