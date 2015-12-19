@@ -42,10 +42,7 @@ function newTrack() {
 	newArtist = $("input").val();
 	$('.search-title').text(newArtist);
 	SC.get('/tracks', { q: newArtist}, function(tracks) {
-
-		console.log(tracks);
 		var trackLength = tracks.length;
-		console.log(trackLength);
 
 	  	for (var i = 0; i < trackLength; i++) {
 
@@ -53,10 +50,8 @@ function newTrack() {
 			var plays = tracks[i]['playback_count'];
 			var likes = tracks[i]['likes_count'];
 			var art = tracks[i]['artwork_url'];
-			console.log(title);
 
 			if (i === $(".song").length) {
-				console.log($(".song").length);
 				var newContent =$('<div class="content clearfix">');
 				var newSong = $("<div class='song'>");
 				var newTitle = $("<div class ='title'>").text(title);
@@ -81,7 +76,6 @@ function newTrack() {
 			$('img').eq(i).attr('src', art);
 
 			var artworkUrl = tracks[i]['artwork_url'];
-				console.log(artworkUrl);
 
 			if (artworkUrl === null) {
 				$('.art').addClass('default-art');
@@ -136,7 +130,6 @@ $('#volume').change(function() {
 $(document).on('click','.state', function() {
 	trackIndex = $(this).parents('.content').index();
 	currentSong = $('.artwork-container div').eq(trackIndex);
-	console.log(trackIndex);
 
 	$('#audio-controls').animate({
 		marginBottom: '0',
@@ -215,11 +208,9 @@ $('.event-btn').click(function() {
 		if (voy.getState() == "paused") {
 			currentSong.removeClass('play-button-img').addClass('pause-button-img');
 			voy.play();
-			console.log('playing!');
 		} else {
 			currentSong.removeClass('pause-button-img').addClass('play-button-img');
 			voy.pause();
-			console.log('paused!');
 		} 
 	}
 });
